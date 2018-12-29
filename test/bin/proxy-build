@@ -38,8 +38,8 @@ export https_proxy
 # Run commands we want to cache downloads for
 set -x
 # Using 4.9.1 as a well known old version (which is no longer getting updated so does not change)
-n --download "4.9.1"
-docker-compose run ubuntu-curl n --download 4.9.1
+n --download "4"
+docker-compose run ubuntu-curl n --download 4
 set +x
 
 rm -rf "${TMP_PREFIX_DIR}"
