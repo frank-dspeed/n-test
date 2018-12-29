@@ -5,7 +5,7 @@ echo ""
 echo "To make use of proxy server:"
 echo "   export https_proxy=\"$(hostname):8080\""
 echo "   export http_proxy=\"$(hostname):8080\""
-echo "   export CURL_HOME=${BIN_DIRECTORY}"
+echo "   export CURL_HOME=$(dirname ${BIN_DIRECTORY})/config"
 echo ""
 
 echo "Launching proxy server..."

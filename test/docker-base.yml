@@ -12,6 +12,9 @@ services:
       - ./tests:/mnt/tests
       # the n script
       - ${N_SCRIPT_FOR_TESTS}:/usr/local/bin/n
+      # override curl settings to allow insecure connection in case using proxy
+      - ./config/.curlrc:/root/.curlrc
     environment:
+      # pass through proxy settings to allow caching proxy
       - http_proxy
       - https_proxy

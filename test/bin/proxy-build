@@ -27,18 +27,19 @@ source tests/unset-n-env.bash
 readonly N_PREFIX="$(mktemp -d)"
 export N_PREFIX
 # Hack curl to avoid certificate issues with proxy
-export CURL_HOME="${BIN_DIRECTORY}"
+export CURL_HOME="$(dirname ${BIN_DIRECTORY})/config"
 
 echo "Loading up cache..."
 
 # Go through proxy so it can record traffic, http for taobao redirects
-export http_proxy="localhost:8080"
-export https_proxy="localhost:8080"
+export http_proxy="$(hostname):8080"
+export https_proxy="$(hostname):8080"
 
 # Run commands we want to cache network calls
 set -x
 # Using 4.9.1 as a well known old version (which is no longer getting updated so does not change)
 n "${FIRST_NODE_VERSION}"
+docker-compose run ubuntu-curl n "${FIRST_NODE_VERSION}"
 set +x
 
 rm -rf "${N_PREFIX}"
