@@ -7,16 +7,6 @@ waitproxy() {
     while ! nc -z localhost 8080 ; do sleep 1 ; done
 }
 
-# Check caller not already on the first version we install, or n will optimise that install away...
-readonly FIRST_NODE_VERSION="v4.9.1"
-if command -v node  &> /dev/null; then
-  readonly node_version=$(node --version)
-  if [[ "${node_version}" = "${FIRST_NODE_VERSION}" ]]; then
-    echo "Sorry, please install a node version other than ${FIRST_NODE_VERSION} so first install is cached too."
-    exit 2
-  fi
-fi
-
 mitmdump -w proxy~~.dump &> /dev/null &
 mitm_process="$!"
 waitproxy
@@ -41,8 +31,8 @@ export https_proxy
 # Run commands we want to cache network calls
 set -x
 # Using 4.9.1 as a well known old version (which is no longer getting updated so does not change)
-n "${FIRST_NODE_VERSION}"
-docker-compose run ubuntu-curl n "${FIRST_NODE_VERSION}"
+n "4.9.1"
+docker-compose run ubuntu-curl n 4.9.1
 set +x
 
 rm -rf "${N_PREFIX}"
