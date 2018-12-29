@@ -4,8 +4,7 @@
   "description": "Automated tests for tj/n",
   "main": "index.js",
   "scripts": {
-    "test": "test/bin/run-all-tests",
-    "bats": "bats"
+    "test": "test/bin/run-all-tests"
   },
   "author": "John Gee",
   "license": "MIT",

@@ -13,20 +13,43 @@ e.g.
 
     N_SCRIPT_FOR_TESTS=/Users/john/Documents/Sandpits/n/bin/n
 
-## Running Tests Locally
+## Running Tests
 
-Run all the tests with one of:
+Run all the tests across a range of containers and on the host system:
 
     npm run test
-    test/bin/run-all-tests
 
-Run single test, three different ways of running locally installed `bats`:
+Run all the tests on a single system:
+
+    npx bats test/tests
+    node_modules/.bin/bats test/tests
+    #
+    cd test
+    docker-compose run ubuntu-curl bats /mnt/tests
+
+Run single test:
 
     npx bats test/tests/install-contents.bats
-    npm run bats test/tests/install-contents.bats
     node_modules/.bin/bats test/tests/install-contents.bats
+    #
+    cd test
+    docker-compose run ubuntu-curl bats /mnt/tests/install-contents.bats
 
-## Docker
+## Proxy
+
+To speed up the tests, you can optionally run a caching proxy for the node downloads. The curl settings are modified
+to allow an insecure connection through the mitm proxy.
+
+    cd test
+    bin/proxy-build
+    bin/proxy-run
+    # follow the instructions for configuring environment variables for using proxy, then run tests
+
+`node` versions added to proxy cache (and in tests):
+
+* v4.9.1
+
+## Docker Tips
 
 Using `docker-compose` in addition to `docker` for convenient mounting of `n` script and the tests into the container. Changes to the tests or to `n` itself are reflected immediately without needing to rebuild the containers.
 
@@ -49,17 +72,3 @@ So for example:
       # in container
       n --version
       bats /mnt/tests
-
-## Proxy
-
-To speed up the tests, you can optionally run a caching proxy for the node downloads. The curl settings are modified
-to allow an insecure connection through the mitm proxy.
-
-    cd test
-    bin/proxy-build
-    bin/proxy-run
-    # follow the instructions for configuring environment variables for using proxy
-
-`node` versions added to proxy cache (and in tests):
-
-* v4.9.1
