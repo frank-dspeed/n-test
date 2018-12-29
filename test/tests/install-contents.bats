@@ -1,34 +1,40 @@
 #!/usr/bin/env bats
 
-load unset-n-env
+load shared_functions
+
+
+function setup() {
+  unset_n_env
+}
+
 
 # Test that files get installed to expected locations
 # https://github.com/tj/n/issues/246
 
 @test "install: contents" {
   readonly TARGET_VERSION="4.9.1"
-  readonly TMP_PREFIX="$(mktemp -d)"
+  setup_tmp_prefix
 
-  [ ! -d "${TMP_PREFIX}/n/versions" ]
-  [ ! -d "${TMP_PREFIX}/bin" ]
-  [ ! -d "${TMP_PREFIX}/include" ]
-  [ ! -d "${TMP_PREFIX}/lib" ]
-  [ ! -f "${TMP_PREFIX}/shared" ]
+  [ ! -d "${N_PREFIX}/n/versions" ]
+  [ ! -d "${N_PREFIX}/bin" ]
+  [ ! -d "${N_PREFIX}/include" ]
+  [ ! -d "${N_PREFIX}/lib" ]
+  [ ! -f "${N_PREFIX}/shared" ]
 
-  N_PREFIX="${TMP_PREFIX}" n ${TARGET_VERSION}
+  install_dummy_node
+  n ${TARGET_VERSION}
 
   # Cached version
-  [ -d "${TMP_PREFIX}/n/versions/node/${TARGET_VERSION}" ]
+  [ -d "${N_PREFIX}/n/versions/node/${TARGET_VERSION}" ]
   # Installed into each of key folders
-  [ -f "${TMP_PREFIX}/bin/node" ]
-  [ -f "${TMP_PREFIX}/bin/npm" ]
-  [ -d "${TMP_PREFIX}/include/node" ]
-  [ -d "${TMP_PREFIX}/lib/node_modules" ]
-  [ -d "${TMP_PREFIX}/share/doc/node" ]
+  [ -f "${N_PREFIX}/bin/node" ]
+  [ -f "${N_PREFIX}/bin/npm" ]
+  [ -d "${N_PREFIX}/include/node" ]
+  [ -d "${N_PREFIX}/lib/node_modules" ]
+  [ -d "${N_PREFIX}/share/doc/node" ]
 
-"${TMP_PREFIX}/bin/node" --version
-  run "${TMP_PREFIX}/bin/node" --version
+  run node --version
   [ "${output}" = "v${TARGET_VERSION}" ]
 
-  rm -rf "${TMP_PREFIX}"
+  rm -rf "${TMP_PREFIX_DIR}"
 }
