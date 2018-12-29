@@ -7,20 +7,27 @@ waitproxy() {
     while ! nc -z localhost 8080 ; do sleep 1 ; done
 }
 
+if nc -z localhost 8080; then
+  echo "Error: port 8080 already in use. Is mitmdump already running?"
+  exit 2
+fi
+
+echo "Launching proxy..."
 mitmdump -w proxy~~.dump &> /dev/null &
 mitm_process="$!"
+echo "Waiting for proxy..."
 waitproxy
 
-# nvh setup
-source tests/unset-n-env.bash
-# Use temporary directory
-readonly N_PREFIX="$(mktemp -d)"
-export N_PREFIX
+echo "Recording downloads..."
+
+source tests/shared_functions.bash
+unset_n_env
+setup_tmp_prefix
+install_dummy_node
+
 # Hack curl to avoid certificate issues with proxy
 readonly CURL_HOME="$(dirname "${BIN_DIRECTORY}")/config"
 export CURL_HOME
-
-echo "Loading up cache..."
 
 # Go through proxy so it can record traffic, http for taobao redirects
 readonly http_proxy="$(hostname):8080"
@@ -28,13 +35,14 @@ export http_proxy
 readonly https_proxy="$(hostname):8080"
 export https_proxy
 
-# Run commands we want to cache network calls
+# Run commands we want to cache downloads for
 set -x
 # Using 4.9.1 as a well known old version (which is no longer getting updated so does not change)
-n "4.9.1"
-docker-compose run ubuntu-curl n 4.9.1
+n --download "4.9.1"
+docker-compose run ubuntu-curl n --download 4.9.1
 set +x
 
-rm -rf "${N_PREFIX}"
+rm -rf "${TMP_PREFIX_DIR}"
+echo "Stopping proxy"
 kill "${mitm_process}"
 
