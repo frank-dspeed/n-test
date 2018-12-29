@@ -7,11 +7,11 @@ Prototype and develop a set of automated tests for `n`.
 Run `npm install` to install `bats`.
 
 Add `.env` file beside `docker-compose.yml` with variable for `N_SCRIPT_FOR_TESTS`, to mount `n` script into container for testing.
-(This is a temporary extra step while the tests are separate from the `n` repo, so `n` is not in a known location.)
+(This is a temporary extra step while the tests are separate from the `n` repo, as `n` is not in a known location.)
 
 e.g.
 
-    N_SCRIPT_FOR_TESTS=/Users/john/Documents/Sandpits/nvh-n/bin/n
+    N_SCRIPT_FOR_TESTS=/Users/john/Documents/Sandpits/n/bin/n
 
 ## Running Tests Locally
 
@@ -19,7 +19,7 @@ Run all the tests:
 
     npm run test
 
-Running single test, three different ways of running locally installed `bats`:
+Run single test, three different ways of running locally installed `bats`:
 
     npx bats test/tests/install-contents.bats
     npm run bats test/tests/install-contents.bats
