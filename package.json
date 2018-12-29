@@ -1,0 +1,19 @@
+{
+  "name": "n-test",
+  "version": "0.0.1",
+  "description": "Automated tests for tj/n",
+  "main": "index.js",
+  "scripts": {
+    "test": "bats test/tests",
+    "bats": "bats"
+  },
+  "author": "John Gee",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JohnRGee/n-test.git"
+  },
+  "devDependencies": {
+    "bats": "^1.1.0"
+  }
+}
