@@ -47,3 +47,14 @@ So for example:
       # in container
       n --version
       bats /mnt/tests
+
+## Proxy
+
+To speed up the tests, you can optionally run a caching proxy. This requires modifying the curl settings to allow an insecure connection (i.e. through the mitm proxy).
+
+NB: initially only supported for running tests natively. Docker proxy support still coming.
+
+    cd tests
+    bin/proxy-build
+    bin/proxy-run
+    # follow the instructions for configuring environment variables for using proxy

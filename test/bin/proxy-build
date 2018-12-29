@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Unoffical bash safe mode
+set -euo pipefail
+BIN_DIRECTORY="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+
+waitproxy() {
+    while ! nc -z localhost 8080 ; do sleep 1 ; done
+}
+
+# Check caller not already on the first version we install, or n will optimise that install away...
+readonly FIRST_NODE_VERSION="v4.9.1"
+if command -v node  &> /dev/null; then
+  readonly node_version=$(node --version)
+  if [[ "${node_version}" = "${FIRST_NODE_VERSION}" ]]; then
+    echo "Sorry, please install a node version other than ${FIRST_NODE_VERSION} so first install is cached too."
+    exit 2
+  fi
+fi
+
+mitmdump -w proxy~~.dump &> /dev/null &
+mitm_process="$!"
+waitproxy
+
+# nvh setup
+source tests/unset-n-env.bash
+# Use temporary directory
+readonly N_PREFIX="$(mktemp -d)"
+export N_PREFIX
+# Hack curl to avoid certificate issues with proxy
+export CURL_HOME="${BIN_DIRECTORY}"
+
+echo "Loading up cache..."
+
+# Go through proxy so it can record traffic, http for taobao redirects
+export http_proxy="localhost:8080"
+export https_proxy="localhost:8080"
+
+# Run commands we want to cache network calls
+set -x
+# Using 4.9.1 as a well known old version (which is no longer getting updated so does not change)
+n "${FIRST_NODE_VERSION}"
+set +x
+
+rm -rf "${N_PREFIX}"
+kill "${mitm_process}"
+
