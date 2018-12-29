@@ -15,9 +15,10 @@ e.g.
 
 ## Running Tests Locally
 
-Run all the tests:
+Run all the tests with one of:
 
     npm run test
+    test/bin/run-all-tests
 
 Run single test, three different ways of running locally installed `bats`:
 
@@ -43,6 +44,7 @@ Using `docker-compose` adds:
 
 So for example:
 
+    cd test
     docker-compose run ubuntu-curl
       # in container
       n --version
@@ -53,7 +55,7 @@ So for example:
 To speed up the tests, you can optionally run a caching proxy for the node downloads. The curl settings are modified
 to allow an insecure connection through the mitm proxy.
 
-    cd tests
+    cd test
     bin/proxy-build
     bin/proxy-run
     # follow the instructions for configuring environment variables for using proxy

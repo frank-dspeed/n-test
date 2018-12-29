@@ -27,13 +27,16 @@ source tests/unset-n-env.bash
 readonly N_PREFIX="$(mktemp -d)"
 export N_PREFIX
 # Hack curl to avoid certificate issues with proxy
-export CURL_HOME="$(dirname ${BIN_DIRECTORY})/config"
+readonly CURL_HOME="$(dirname "${BIN_DIRECTORY}")/config"
+export CURL_HOME
 
 echo "Loading up cache..."
 
 # Go through proxy so it can record traffic, http for taobao redirects
-export http_proxy="$(hostname):8080"
-export https_proxy="$(hostname):8080"
+readonly http_proxy="$(hostname):8080"
+export http_proxy
+readonly https_proxy="$(hostname):8080"
+export https_proxy
 
 # Run commands we want to cache network calls
 set -x

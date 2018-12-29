@@ -4,7 +4,7 @@
   "description": "Automated tests for tj/n",
   "main": "index.js",
   "scripts": {
-    "test": "bats test/tests",
+    "test": "test/bin/run-all-tests",
     "bats": "bats"
   },
   "author": "John Gee",
