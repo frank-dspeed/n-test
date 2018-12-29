@@ -26,12 +26,15 @@ function setup() {
 
   # Cached version
   [ -d "${N_PREFIX}/n/versions/node/${TARGET_VERSION}" ]
-  # Installed into each of key folders
+  # node and npm
   [ -f "${N_PREFIX}/bin/node" ]
   [ -f "${N_PREFIX}/bin/npm" ]
+  # Installed something into each of other key folders
   [ -d "${N_PREFIX}/include/node" ]
   [ -d "${N_PREFIX}/lib/node_modules" ]
   [ -d "${N_PREFIX}/share/doc/node" ]
+  # Did not install files from top level of tarball
+  [ ! -f "${N_PREFIX}/README.md" ]
 
   run node --version
   [ "${output}" = "v${TARGET_VERSION}" ]
