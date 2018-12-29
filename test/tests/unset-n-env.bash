@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # unset the n environment variables so tests running from known state
 
 unset N_PREFIX
