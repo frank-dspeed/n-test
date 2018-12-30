@@ -16,40 +16,64 @@ function teardown() {
 
 
 # Explicit version
-@test "install: 4.9.1" {
-  n "4.9.1"
+@test "n 4.9.1" {
+  n 4.9.1
   run node --version
   [ "${output}" = "v4.9.1" ]
 }
 
 
 # Explicit version, optional leading v
-@test "install: v4.9.1" {
-  n "v4.9.1"
+@test "n v4.9.1" {
+  n v4.9.1
   run node --version
   [ "${output}" = "v4.9.1" ]
 }
 
 
 # Partial version
-@test "install: 4" {
-  n "4"
+@test "n 4" {
+  n 4
   run node --version
   [ "${output}" = "v4.9.1" ]
 }
 
 
 # Partial version, optional leading v
-@test "install: v4" {
-  n "v4"
+@test "n v4" {
+  n v4
   run node --version
   [ "${output}" = "v4.9.1" ]
 }
 
 
 # Partial version
-@test "install: 4.9" {
-  n "4.9"
+@test "n 4.9" {
+  n 4.9
   run node --version
   [ "${output}" = "v4.9.1" ]
+}
+
+
+@test "n lts" {
+  n lts
+  run node --version
+  # ToDo: find expected lts version
+  # [ "${output}" = "v4.9.1" ]
+}
+
+
+@test "n stable" {
+  n stable
+  run node --version
+  # ToDo: find expected lts version
+  # [ "${output}" = "v4.9.1" ]
+}
+
+
+@test "n latest" {
+  n latest
+  run node --version
+  # ToDo: find expected latest version
+  # [ "${output}" = "v4.9.1" ]
 }

@@ -19,7 +19,7 @@ function setup() {
   [ ! -d "${N_PREFIX}/bin" ]
   [ ! -d "${N_PREFIX}/include" ]
   [ ! -d "${N_PREFIX}/lib" ]
-  [ ! -f "${N_PREFIX}/shared" ]
+  [ ! -d "${N_PREFIX}/shared" ]
 
   install_dummy_node
   n ${TARGET_VERSION}
