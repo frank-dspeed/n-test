@@ -45,9 +45,11 @@ to allow an insecure connection through the mitm proxy.
     bin/proxy-run
     # follow the instructions for configuring environment variables for using proxy, then run tests
 
-`node` versions added to proxy cache (and in tests):
+`node` versions added to proxy cache (and used in tests):
 
 * v4.9.1
+* lts
+* latest
 
 ## Docker Tips
 
