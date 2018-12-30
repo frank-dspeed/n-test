@@ -21,18 +21,14 @@ Run all the tests across a range of containers and on the host system:
 
 Run all the tests on a single system:
 
-    npx bats test/tests
-    node_modules/.bin/bats test/tests
-    #
     cd test
+    npx bats tests
     docker-compose run ubuntu-curl bats /mnt/tests
 
-Run single test:
+Run single test on a single system::
 
-    npx bats test/tests/install-contents.bats
-    node_modules/.bin/bats test/tests/install-contents.bats
-    #
     cd test
+    npx bats tests/install-contents.bats
     docker-compose run ubuntu-curl bats /mnt/tests/install-contents.bats
 
 ## Proxy

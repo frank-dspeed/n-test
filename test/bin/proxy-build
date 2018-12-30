@@ -9,6 +9,7 @@ waitproxy() {
 
 if nc -z localhost 8080; then
   echo "Error: port 8080 already in use. Is mitmdump already running?"
+  pgrep -f -l mitmdump
   exit 2
 fi
 
@@ -30,9 +31,9 @@ readonly CURL_HOME="$(dirname "${BIN_DIRECTORY}")/config"
 export CURL_HOME
 
 # Go through proxy so it can record traffic, http for taobao redirects
-readonly http_proxy="$(hostname):8080"
+http_proxy="$(hostname):8080"
 export http_proxy
-readonly https_proxy="$(hostname):8080"
+https_proxy="$(hostname):8080"
 export https_proxy
 
 # Run commands we want to cache downloads for
