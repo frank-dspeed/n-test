@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+source shared_functions.bash
+
+echo "lts is $(display_remote_version lts)"
+echo "stable is $(display_remote_version stable)"
+echo "latest is $(display_remote_version latest)"

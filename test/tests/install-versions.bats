@@ -58,22 +58,19 @@ function teardown() {
 @test "n lts" {
   n lts
   run node --version
-  # ToDo: find expected lts version
-  # [ "${output}" = "v4.9.1" ]
+  [ "${output}" = "$(display_remote_version lts)" ]
 }
 
 
 @test "n stable" {
   n stable
   run node --version
-  # ToDo: find expected lts version
-  # [ "${output}" = "v4.9.1" ]
+  [ "${output}" = "$(display_remote_version lts)" ]
 }
 
 
 @test "n latest" {
   n latest
   run node --version
-  # ToDo: find expected latest version
-  # [ "${output}" = "v4.9.1" ]
+  [ "${output}" = "$(display_remote_version latest)" ]
 }
