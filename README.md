@@ -33,7 +33,7 @@ Run single test on a single system::
 
 ## Proxy
 
-To speed up the tests, you can optionally run a caching proxy for the node downloads. The curl settings are modified
+To speed up running tests multiple times, you can optionally run a caching proxy for the node downloads. The curl settings are modified
 to allow an insecure connection through the mitm proxy.
 
     cd test
@@ -57,11 +57,12 @@ The containers each have:
 
 * either curl or wget (or both) installed
 
-Using `docker-compose` adds:
+Using `docker-compose` to run the container adds:
 
 * specified `n` script mounted to `/usr/local/bin/n`
 * `test/tests` mounted to `/mnt/tests`
 * `node_modules/bats` provides `/usr/local/bin/bats` et al
+* `.curlrc` with `--insecure` to allow use of proxy
 
 So for example:
 
