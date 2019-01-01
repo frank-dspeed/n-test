@@ -13,6 +13,12 @@ e.g.
 
     N_SCRIPT_FOR_TESTS=/Users/john/Documents/Sandpits/n/bin/n
 
+Optional proxy using mitmproxy:
+
+    # using homebrew (Mac) to install mitmproxy
+    brew install mitmproxy
+
+
 ## Running Tests
 
 Run all the tests across a range of containers and on the host system:
