@@ -36,17 +36,10 @@ export http_proxy
 https_proxy="$(hostname):8080"
 export https_proxy
 
-# Run commands we want to cache downloads for
-set -x
-curl --location --fail https://nodejs.org/dist/index.tab &> /dev/null
-# Using 4.9.1 as a well known old version (which is no longer getting updated so does not change)
-n --download 4
-docker-compose run ubuntu-curl n --download 4
-n --download lts
-docker-compose run ubuntu-curl n --download lts
-n --download latest
-docker-compose run ubuntu-curl n --download latest
-set +x
+# native
+tests/install-reference-versions.bash
+# linux
+docker-compose run ubuntu-curl /mnt/tests/install-reference-versions.bash
 
 rm -rf "${TMP_PREFIX_DIR}"
 echo "Stopping proxy"
