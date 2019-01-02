@@ -47,6 +47,31 @@ function setup_tmp_prefix() {
 }
 
 
+# Display relevant file name (third field of index.tab) for current platform.
+# Based on code from nvm rather than n for independent approach. Simplified for just common platforms initially.
+# See list on https://github.com/nodejs/nodejs-dist-indexer
+
+function display_compatible_file_field() {
+  local os="unexpected"
+  case "$(uname -a)" in
+    Linux\ *) os="linux" ;;
+    Darwin\ *) os="osx" ;;
+  esac
+
+  local arch="unexpected"
+  local uname_m
+  uname_m="$(uname -m)"
+  case "${uname_m}" in
+    x86_64 | amd64) arch="x64" ;;
+    i*86) arch="x86" ;;
+    aarch64) arch="arm64" ;;
+    *) arch="${uname_m}" ;;
+  esac
+
+  echo "${os}-${arch}"
+}
+
+
 # display_remote_version <version>
 # Limited support for using index.tab to resolve version into a number.
 # Return version number, including leading v.
@@ -69,9 +94,11 @@ function display_remote_version() {
     match='.'
   fi
 
-  # Using temporary variable as curl complains if pipe closes early (e.g. head).
-  # (Not filtering for platform yet.)
-  local versions
-  versions="$(${fetch} "https://nodejs.org/dist/index.tab" | tail -n +2 | grep -E "${match}" | cut -f -1)"
-  echo "${versions}" | head -n 1
+  # Using awk rather than head so do not close pipe early on curl
+  # (Add display_compatible_file_field when n does similar check!)
+  ${fetch} "https://nodejs.org/dist/index.tab" \
+    | tail -n +2 \
+    | grep -E "${match}" \
+    | awk "NR==1" \
+    | cut -f -1
 }
