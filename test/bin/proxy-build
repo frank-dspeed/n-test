@@ -21,7 +21,7 @@ waitproxy
 
 echo "Recording downloads..."
 
-source tests/shared_functions.bash
+source tests/shared-functions.bash
 unset_n_env
 setup_tmp_prefix
 install_dummy_node
